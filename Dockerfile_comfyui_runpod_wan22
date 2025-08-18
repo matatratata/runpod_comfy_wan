@@ -40,6 +40,7 @@ WORKDIR /
 
 # Clone the ComfyUI repository
 RUN git clone https://github.com/comfyanonymous/ComfyUI.git
+RUN git clone https://github.com/matatratata/runpod_comfy_wan.git
 
 # Verify we're using the virtual environment and install/upgrade Python build tools
 RUN which python && which pip && \
@@ -77,6 +78,7 @@ RUN git clone https://github.com/banodoco/Steerable-Motion.git
 RUN git clone https://github.com/chflame163/ComfyUI_LayerStyle_Advance.git
 RUN git clone https://github.com/pollockjj/ComfyUI-MultiGPU.git
 RUN git clone https://github.com/safzanpirani/flux-kontext-diff-merge.git
+RUN git clone https://github.com/drozbay/ComfyUI-WanVaceAdvanced.git
 
 # Loop through custom nodes and install their requirements using virtual environment
 RUN for d in /ComfyUI/custom_nodes/*/; do \

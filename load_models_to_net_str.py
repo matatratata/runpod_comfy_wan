@@ -3,7 +3,6 @@
 import os
 import argparse
 import subprocess
-from tqdm import tqdm
 from huggingface_hub import snapshot_download
 
 def download_file(url, save_path):
