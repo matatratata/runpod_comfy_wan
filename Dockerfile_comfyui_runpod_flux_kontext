@@ -80,6 +80,7 @@ RUN git clone https://codeberg.org/Gourieff/comfyui-reactor-node.git
 RUN git clone https://github.com/kijai/ComfyUI-Florence2.git
 RUN git clone https://github.com/safzanpirani/flux-kontext-diff-merge.git
 RUN git clone https://github.com/ClownsharkBatwing/RES4LYF.git
+RUN git clone https://github.com/ChenDarYen/ComfyUI-NAG.git
 
 # Loop through custom nodes and install their requirements using virtual environment
 RUN for d in /ComfyUI/custom_nodes/*/; do \

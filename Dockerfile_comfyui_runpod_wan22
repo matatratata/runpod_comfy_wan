@@ -67,6 +67,16 @@ RUN git clone https://github.com/rgthree/rgthree-comfy.git
 RUN git clone https://github.com/kijai/ComfyUI-DepthAnythingV2.git
 RUN git clone https://github.com/M1kep/ComfyLiterals.git
 RUN git clone https://github.com/ClownsharkBatwing/RES4LYF.git
+RUN git clone https://github.com/chflame163/ComfyUI_LayerStyle.git
+RUN git clone https://github.com/Fannovel16/comfyui_controlnet_aux.git
+RUN git clone https://github.com/ChenDarYen/ComfyUI-NAG.git
+RUN git clone https://github.com/city96/ComfyUI-GGUF.git
+RUN git clone https://github.com/Maxed-Out-99/ComfyUI-MaxedOut.git
+RUN git clone https://github.com/cubiq/ComfyUI_essentials.git
+RUN git clone https://github.com/banodoco/Steerable-Motion.git
+RUN git clone https://github.com/chflame163/ComfyUI_LayerStyle_Advance.git
+RUN git clone https://github.com/pollockjj/ComfyUI-MultiGPU.git
+RUN git clone https://github.com/safzanpirani/flux-kontext-diff-merge.git
 
 # Loop through custom nodes and install their requirements using virtual environment
 RUN for d in /ComfyUI/custom_nodes/*/; do \
@@ -88,7 +98,12 @@ RUN echo 'comfyui:' > /extra_model_paths.yaml && \
     echo '  vae: models/vae' >> /extra_model_paths.yaml && \
     echo '  loras: models/loras' >> /extra_model_paths.yaml && \
     echo '  clip_vision: models/clip_vision' >> /extra_model_paths.yaml && \
+    echo '  clip: models/clip' >> /extra_model_paths.yaml && \
+    echo '  unet: models/unet' >> /extra_model_paths.yaml && \
+    echo '  upscale_models: models/upscale_models' >> /extra_model_paths.yaml && \
+    echo '  segformer_b2_clothes: models/segformer_b2_clothes' >> /extra_model_paths.yaml && \
     echo '  text_encoders: models/text_encoders' >> /extra_model_paths.yaml
+
 
 # Create the startup script that downloads models on-demand
 # This script is executed every time the pod starts
