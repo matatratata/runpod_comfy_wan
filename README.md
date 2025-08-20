@@ -92,4 +92,29 @@ File Structure
 
     README.md: This file.
 
+# ComfyUI RunPod Container
+
+## Important: Running with CUDA Support
+
+To ensure CUDA is properly available inside the container, you must start it with GPU support:
+
+```bash
+docker run --gpus all -p 8189:8189 -v /path/to/your/models:/WAN your-image-name
+```
+
+### Prerequisites:
+
+1. NVIDIA GPU with up-to-date drivers
+2. Docker with NVIDIA Container Toolkit installed (nvidia-docker2)
+
+### Verifying CUDA:
+
+The startup script will automatically check for CUDA availability and print information about your GPU. If you see a warning about CUDA not being available, check that:
+
+1. You've started the container with the `--gpus all` flag
+2. Your host system has properly installed NVIDIA drivers
+3. The NVIDIA Container Toolkit is correctly installed and configured
+
+For RunPod users, CUDA should work automatically when deployed on GPU instances.
+
 Enjoy creating amazing videos with your custom ComfyUI setup!

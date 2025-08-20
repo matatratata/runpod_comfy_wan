@@ -1,8 +1,52 @@
 ```bash
+# Create ubuntu user if it doesn't exist
+id -u ubuntu &>/dev/null || (useradd -m ubuntu && usermod -aG sudo ubuntu && echo "ubuntu ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers)
+
+# Give ubuntu ownership of workspace directory
+mkdir -p /workspace
+chown -R ubuntu:ubuntu /workspace
+
+# Check if NVIDIA GPU is available
+echo "=== GPU Detection Check ==="
+if ! command -v nvidia-smi &> /dev/null; then
+    echo "WARNING: nvidia-smi command not found. NVIDIA drivers may not be installed properly."
+    echo "This script requires NVIDIA GPU with drivers installed for optimal performance."
+else
+    nvidia-smi
+fi
+
+# Switch to ubuntu user for all operations
+sudo -u ubuntu bash << 'EOF'
+
+# Check CUDA availability with Python
+echo "=== Python CUDA Check ==="
+python3 -c "
+import subprocess, sys
+try:
+    import torch
+    print(f'PyTorch version: {torch.__version__}')
+    print(f'CUDA available: {torch.cuda.is_available()}')
+    if torch.cuda.is_available():
+        print(f'CUDA device count: {torch.cuda.device_count()}')
+        print(f'CUDA device name: {torch.cuda.get_device_name(0)}')
+        print(f'CUDA version: {torch.version.cuda}')
+    else:
+        print('WARNING: CUDA is not available to PyTorch!')
+except ImportError:
+    print('PyTorch not installed. Will install it now.')
+    subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'torch', 'torchvision', 'torchaudio', '--index-url', 'https://download.pytorch.org/whl/cu128'])
+    import torch
+    print(f'CUDA available after install: {torch.cuda.is_available()}')
+"
+
 # install everything in one shot
-apt-get update -qq && \
-apt-get install -y --no-install-recommends aria2 python3-pip && \
-pip install -q "huggingface_hub[hf_xet]" 
+sudo apt-get update -qq && \
+sudo apt-get install -y --no-install-recommends aria2 python3-pip && \
+pip3 install "huggingface_hub[hf_xet]" 
+
+# Create all required directories
+mkdir -p /workspace/models/{diffusion_models,vae,text_encoders,loras,unet,clip,upscale_models,clip_vision}
+
 URL="https://huggingface.co/Kijai/WanVideo_comfy_fp8_scaled/resolve/main/T2V/Wan2_2-T2V-A14B-LOW_fp8_e5m2_scaled_KJ.safetensors" && \
 aria2c -x16 -s16 -k1M \
   --file-allocation=none \
@@ -318,37 +362,39 @@ aria2c -x16 -s16 -k1M \
   --out=Wan21_CausVid_14B_T2V_lora_rank32_v2.safetensors \
   --save-session=/workspace/aria2.session \
   "$URL"
+URL="https://huggingface.co/Kijai/WanVideo_comfy_fp8_scaled/resolve/main/I2V/Wan2_1-I2V-14B-MAGREF_fp8_e5m2_scaled_KJ.safetensors" && \
+aria2c -x16 -s16 -k1M \
+  --file-allocation=none \
+  --continue=true \
+  --dir=/WAN/models/diffusion_models \
+  --out=Wan2_1-I2V-14B-MAGREF_fp8_e5m2_scaled_KJ.safetensors \
+  --save-session=/workspace/aria2.session \
+  "$URL"
+URL="https://huggingface.co/Kijai/WanVideo_comfy/resolve/main/taew2_1.safetensors" && \
+aria2c -x16 -s16 -k1M \
+  --file-allocation=none \
+  --continue=true \
+  --dir=/ComfyUI/models/vae_approx \
+  --out=taew2_1.safetensors \
+  --save-session=/workspace/aria2.session \
+  "$URL"
+URL="https://huggingface.co/jrewingwannabe/Wan2.1_I2V_14B_FusionX_LoRA/resolve/main/Wan2.1_I2V_14B_FusionX_LoRA.safetensors" && \
+aria2c -x16 -s16 -k1M \
+  --file-allocation=none \
+  --continue=true \
+  --dir=/WAN/models/loras \
+  --out=Wan2.1_I2V_14B_FusionX_LoRA.safetensors \
+  --save-session=/workspace/aria2.session \
+  "$URL"
+URL="https://huggingface.co/CosmicCrafter/wan21VACEPhantom_v20Lowsteps/resolve/main/wan21VACEPhantom_v20Lowsteps/wan21VACEPhantom_v20Lowsteps-fp8_scaled_stochastic-CosmicCrafter.safetensors" && \
+aria2c -x16 -s16 -k1M \
+  --file-allocation=none \
+  --continue=true \
+  --dir=/WAN/models/diffusion_models \
+  --out=wan21VACEPhantom_v20Lowsteps-fp8_scaled_stochastic-CosmicCrafter.safetensors \
+  --save-session=/workspace/aria2.session \
+  "$URL"
 
-# Create directory for the model
-mkdir -p /workspace/models/segformer_b2_clothes
-
-# Use Python with huggingface_hub to download the model files
-python3 -c "
-from huggingface_hub import snapshot_download
-import os
-
-# Download the complete repository
-snapshot_download(
-    repo_id='mattmdjaga/segformer_b2_clothes',
-    local_dir='/workspace/models/segformer_b2_clothes',
-    local_dir_use_symlinks=False
-)
-
-print('Download complete: Model files saved to /ComfyUI/models/segformer_b2_clothes')
-"
-
-mkdir -p /workspace/models/segformer_b3_clothes
-
-python3 -c "
-from huggingface_hub import snapshot_download
-import os
-
-# Download the complete repository
-snapshot_download(
-    repo_id='sayeed99/segformer_b3_clothes',
-    local_dir='/workspace/models/segformer_b3_clothes',
-    local_dir_use_symlinks=False
-)
-
-print('Download complete: Model files saved to /workspace/models/segformer_b3_clothes')
-"
+# Ensure all downloaded files are owned by ubuntu
+sudo chown -R ubuntu:ubuntu /workspace/models
+EOF
