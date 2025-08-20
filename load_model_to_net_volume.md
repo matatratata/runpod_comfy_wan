@@ -350,7 +350,7 @@ URL="https://huggingface.co/drozbay/Wan2.2_A14B_lora_extract/resolve/main/Wan22_
 aria2c -x16 -s16 -k1M \
   --file-allocation=none \
   --continue=true \
-  --dir=/workspace/models/loras \
+  --dir=/WAN/models/loras \
   --out=Wan22_A14B_T2V_lora_extract_r64.safetensors \
   --save-session=/workspace/aria2.session \
   "$URL"
@@ -378,12 +378,12 @@ aria2c -x16 -s16 -k1M \
   --out=taew2_1.safetensors \
   --save-session=/workspace/aria2.session \
   "$URL"
-URL="https://huggingface.co/jrewingwannabe/Wan2.1_I2V_14B_FusionX_LoRA/resolve/main/Wan2.1_I2V_14B_FusionX_LoRA.safetensors" && \
+URL="https://huggingface.co/svjack/Wan_2_1_safetensors_pth/resolve/main/Phantom_Wan_14B_FusionX_LoRA.safetensors" && \
 aria2c -x16 -s16 -k1M \
   --file-allocation=none \
   --continue=true \
   --dir=/WAN/models/loras \
-  --out=Wan2.1_I2V_14B_FusionX_LoRA.safetensors \
+  --out=Phantom_Wan_14B_FusionX_LoRA.safetensors \
   --save-session=/workspace/aria2.session \
   "$URL"
 URL="https://huggingface.co/CosmicCrafter/wan21VACEPhantom_v20Lowsteps/resolve/main/wan21VACEPhantom_v20Lowsteps/wan21VACEPhantom_v20Lowsteps-fp8_scaled_stochastic-CosmicCrafter.safetensors" && \

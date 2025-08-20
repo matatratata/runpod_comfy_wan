@@ -1,0 +1,165 @@
+# Use multi-stage build with caching optimizations
+FROM nvidia/cuda:12.8.1-cudnn-devel-ubuntu24.04 AS base
+
+# Set environment variables to avoid interactive prompts during build
+ENV DEBIAN_FRONTEND=noninteractive
+ENV PYTHONUNBUFFERED=1
+ENV HF_HOME=/WAN/huggingface
+# Add CUDA environment variables
+ENV PATH="${PATH}:/usr/local/cuda/bin"
+ENV LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/usr/local/cuda/lib64"
+ENV CUDA_HOME=/usr/local/cuda
+
+# Install essential packages
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git \
+    git-lfs \
+    wget \
+    aria2 \
+    unzip \
+    ffmpeg \
+    build-essential \
+    libgl1 \
+    libglib2.0-0 \
+    software-properties-common \
+    openssl \
+    dos2unix \
+    && add-apt-repository ppa:deadsnakes/ppa \
+    && apt-get update \
+    && apt-get install -y python3.12 python3.12-venv python3-pip \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set python3.12 as default
+RUN ln -sf /usr/bin/python3.12 /usr/bin/python
+RUN ln -sf /usr/bin/python3.12 /usr/bin/python3
+
+# Create virtual environment and set PATH to use it
+RUN python3.12 -m venv /venv
+ENV PATH="/venv/bin:$PATH"
+ENV VIRTUAL_ENV="/venv"
+
+# Set working directory
+WORKDIR /
+
+# Clone the ComfyUI repository
+RUN git clone https://github.com/comfyanonymous/ComfyUI.git
+RUN git clone https://github.com/matatratata/runpod_comfy_wan.git
+
+# Verify we're using the virtual environment and install/upgrade Python build tools
+RUN which python && which pip && \
+    pip install --no-cache-dir --upgrade pip setuptools wheel packaging
+
+# Install Python dependencies for ComfyUI and JupyterLab
+RUN pip install --no-cache-dir --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
+RUN pip install --no-cache-dir triton
+RUN pip install --no-cache-dir https://huggingface.co/Kijai/PrecompiledWheels/resolve/main/sageattention-2.2.0-cp312-cp312-linux_x86_64.whl
+RUN pip install --no-cache-dir opencv-python-headless accelerate
+RUN pip install --no-cache-dir -r /ComfyUI/requirements.txt
+# Install JupyterLab and required extension for websockets
+RUN pip install --no-cache-dir jupyterlab jupyter_http_over_ws
+
+# --- Custom Nodes Installation ---
+WORKDIR /ComfyUI/custom_nodes
+RUN git clone https://github.com/Comfy-Org/ComfyUI-Manager.git
+RUN git clone https://github.com/kijai/ComfyUI-WanVideoWrapper.git
+# ... (rest of your custom nodes)
+RUN git clone https://github.com/kijai/ComfyUI-KJNodes.git
+RUN git clone https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite.git
+RUN git clone https://github.com/rgthree/rgthree-comfy.git
+RUN git clone https://github.com/kijai/ComfyUI-DepthAnythingV2.git
+RUN git clone https://github.com/M1kep/ComfyLiterals.git
+RUN git clone https://github.com/ClownsharkBatwing/RES4LYF.git
+RUN git clone https://github.com/chflame163/ComfyUI_LayerStyle.git
+RUN git clone https://github.com/Fannovel16/comfyui_controlnet_aux.git
+RUN git clone https://github.com/ChenDarYen/ComfyUI-NAG.git
+RUN git clone https://github.com/city96/ComfyUI-GGUF.git
+RUN git clone https://github.com/Maxed-Out-99/ComfyUI-MaxedOut.git
+RUN git clone https://github.com/cubiq/ComfyUI_essentials.git
+RUN git clone https://github.com/banodoco/Steerable-Motion.git
+RUN git clone https://github.com/chflame163/ComfyUI_LayerStyle_Advance.git
+RUN git clone https://github.com/pollockjj/ComfyUI-MultiGPU.git
+RUN git clone https://github.com/safzanpirani/flux-kontext-diff-merge.git
+RUN git clone https://github.com/drozbay/ComfyUI-WanVaceAdvanced.git
+
+# Loop through custom nodes and install their requirements
+RUN for d in /ComfyUI/custom_nodes/*/; do \
+    if [ -f "$d/requirements.txt" ]; then \
+    pip install --no-cache-dir -r "$d/requirements.txt"; \
+    fi; \
+    done
+
+# --- End Custom Nodes ---
+
+# Set back to the main ComfyUI directory
+WORKDIR /ComfyUI
+
+# Create the extra_model_paths.yaml
+RUN echo 'comfyui:' > /extra_model_paths.yaml && \
+    echo '  base_path: /WAN' >> /extra_model_paths.yaml && \
+    echo '  diffusion_models: models/diffusion_models' >> /extra_model_paths.yaml && \
+    echo '  vae: models/vae' >> /extra_model_paths.yaml && \
+    echo '  loras: models/loras' >> /extra_model_paths.yaml && \
+    echo '  clip_vision: models/clip_vision' >> /extra_model_paths.yaml && \
+    echo '  clip: models/clip' >> /extra_model_paths.yaml && \
+    echo '  unet: models/unet' >> /extra_model_paths.yaml && \
+    echo '  upscale_models: models/upscale_models' >> /extra_model_paths.yaml && \
+    echo '  segformer_b2_clothes: models/segformer_b2_clothes' >> /extra_model_paths.yaml && \
+    echo '  vae_approx: models/vae_approx' >> /extra_model_paths.yaml && \
+    echo '  text_encoders: models/text_encoders' >> /extra_model_paths.yaml
+
+# Add the script to run JupyterLab securely with TLS
+COPY --chown=root:root <<'EOF' /run_jupyter.sh
+#!/bin/bash
+set -ex
+if [ -z "$JUPYTER_PASSWORD" ]; then
+  echo "JUPYTER_PASSWORD environment variable not set. Jupyter will not be started."
+  exit 0
+fi
+# generate self-signed cert
+mkdir -p /root/.jupyter
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /root/.jupyter/mykey.key -out /root/.jupyter/mycert.pem -subj "/C=US/ST=New York/L=New York/O=VastAI/OU=IT Department/CN=vast.ai"
+# run jupyter
+jupyter-lab --ip=0.0.0.0 --port=8080 --allow-root --ServerApp.password="$JUPYTER_PASSWORD" --certfile=/root/.jupyter/mycert.pem --keyfile=/root/.jupyter/mykey.key &
+EOF
+
+# Create the main startup script
+COPY --chown=root:root <<'EOF' /start.sh
+#!/bin/bash
+set -ex
+
+# --- Start JupyterLab Service in the background ---
+/run_jupyter.sh
+
+# Activate the Python virtual environment
+source /venv/bin/activate
+
+echo "--- Starting RunPod container ---"
+
+# Define directories within the /WAN volume
+DIFFUSION_MODELS_DIR="/WAN/models/diffusion_models"
+VAE_DIR="/WAN/models/vae"
+VAE_APPROX_DIR="/WAN/models/vae_approx"
+LORAS_DIR="/WAN/models/loras"
+TEXT_ENCODERS_DIR="/WAN/models/text_encoders"
+CLIP_VISION_DIR="/WAN/models/clip_vision"
+
+# Create model directories if they don't exist
+echo "--- Creating model directories ---"
+mkdir -p "$DIFFUSION_MODELS_DIR" "$VAE_DIR" "$LORAS_DIR" "$TEXT_ENCODERS_DIR" "$CLIP_VISION_DIR" "$VAE_APPROX_DIR"
+
+# Launch ComfyUI as the main foreground process
+echo "--- Launching ComfyUI ---"
+cd /ComfyUI
+python main.py --listen --port 8189 --extra-model-paths-config /extra_model_paths.yaml
+EOF
+
+# Fix line endings and ensure scripts are executable
+RUN dos2unix /start.sh && chmod +x /start.sh
+RUN dos2unix /run_jupyter.sh && chmod +x /run_jupyter.sh
+
+# Expose the ComfyUI and JupyterLab ports
+EXPOSE 8189
+EXPOSE 8080
+
+# Set the entrypoint for the container
+CMD ["/start.sh"]

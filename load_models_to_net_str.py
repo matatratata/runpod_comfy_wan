@@ -277,9 +277,14 @@ def download_models(base_path):
             "out": "taew2_1.safetensors",
         },
         {
-            "url": "https://huggingface.co/jrewingwannabe/Wan2.1_I2V_14B_FusionX_LoRA/resolve/main/Wan2.1_I2V_14B_FusionX_LoRA.safetensors",
+            "url": "https://huggingface.co/CosmicCrafter/wan21VACEPhantom_v20Lowsteps/resolve/main/wan21VACEPhantom_v20Lowsteps/wan21VACEPhantom_v20Lowsteps-fp8_scaled_stochastic-CosmicCrafter.safetensors",
+            "dir": "models/diffusion_models",
+            "out": "wan21VACEPhantom_v20Lowsteps-fp8_scaled_stochastic-CosmicCrafter.safetensors",
+        },
+        {
+            "url": "https://huggingface.co/svjack/Wan_2_1_safetensors_pth/resolve/main/Phantom_Wan_14B_FusionX_LoRA.safetensors",
             "dir": "models/loras",
-            "out": "Wan2.1_I2V_14B_FusionX_LoRA.safetensors",
+            "out": "Phantom_Wan_14B_FusionX_LoRA.safetensors",
         },
     ]
 
