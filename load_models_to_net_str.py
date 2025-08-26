@@ -167,11 +167,6 @@ def download_models(base_path):
             "out": "Wan2_1-VACE_module_14B_bf16.safetensors",
         },
         {
-            "url": "https://huggingface.co/Kijai/WanVideo_comfy_fp8_scaled/resolve/main/I2V/Wan2_1-I2V-14B-MAGREF_fp8_e5m2_scaled_KJ.safetensors",
-            "dir": "models/diffusion_models",
-            "out": "Wan2_1-I2V-14B-MAGREF_fp8_e5m2_scaled_KJ.safetensors",
-        },
-        {
             "url": "https://huggingface.co/Kijai/WanVideo_comfy_fp8_scaled/resolve/main/I2V/Wan2_2-I2V-A14B-HIGH_fp8_e5m2_scaled_KJ.safetensors",
             "dir": "models/diffusion_models",
             "out": "Wan2_2-I2V-A14B-HIGH_fp8_e5m2_scaled_KJ.safetensors",

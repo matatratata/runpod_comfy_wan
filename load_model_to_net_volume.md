@@ -51,7 +51,7 @@ URL="https://huggingface.co/Kijai/WanVideo_comfy_fp8_scaled/resolve/main/T2V/Wan
 aria2c -x16 -s16 -k1M \
   --file-allocation=none \
   --continue=true \
-  --dir=/workspace/models/diffusion_models \
+  --dir=/WAN/models/diffusion_models \
   --out=Wan2_2-T2V-A14B-LOW_fp8_e5m2_scaled_KJ.safetensors \
   --save-session=/workspace/aria2.session \
   "$URL" && 
@@ -59,7 +59,7 @@ URL="https://huggingface.co/Kijai/WanVideo_comfy_fp8_scaled/resolve/main/T2V/Wan
 aria2c -x16 -s16 -k1M \
   --file-allocation=none \
   --continue=true \
-  --dir=/workspace/models/diffusion_models \
+  --dir=/WAN/models/diffusion_models \
   --out=Wan2_2-T2V-A14B-HIGH_fp8_e5m2_scaled_KJ.safetensors \
   --save-session=/workspace/aria2.session \
   "$URL" &&
@@ -67,23 +67,24 @@ URL="https://huggingface.co/Kijai/WanVideo_comfy/resolve/main/Wan2_1_VAE_fp32.sa
 aria2c -x16 -s16 -k1M \
   --file-allocation=none \
   --continue=true \
-  --dir=/workspace/models/vae \
+  --dir=/WAN/models/vae \
   --out=Wan2_1_VAE_fp32.safetensors \
   --save-session=/workspace/aria2.session \
-  "$URL" && 
+  "$URL"
+
 URL="https://huggingface.co/Comfy-Org/Wan_2.1_ComfyUI_repackaged/resolve/main/split_files/text_encoders/umt5_xxl_fp16.safetensors" && \
 aria2c -x16 -s16 -k1M \
   --file-allocation=none \
   --continue=true \
-  --dir=/workspace/models/text_encoders \
+  --dir=/WAN/models/text_encoders \
   --out=umt5_xxl_fp16.safetensors \
   --save-session=/workspace/aria2.session \
-  "$URL" && 
+  "$URL"
 URL="https://civitai.com/api/download/models/2079658?type=Model&format=SafeTensor" && \
 aria2c -x16 -s16 -k1M \
   --file-allocation=none \
   --continue=true \
-  --dir=/workspace/models/loras \
+  --dir=/WAN/models/loras \
   --out=WAN2.2-HighNoise_SmartphoneSnapshotPhotoReality_v3_by-AI_Characters.safetensors \
   --save-session=/workspace/aria2.session \
   "$URL" && 
@@ -91,7 +92,7 @@ URL="https://civitai.com/api/download/models/2079614?type=Model&format=SafeTenso
 aria2c -x16 -s16 -k1M \
   --file-allocation=none \
   --continue=true \
-  --dir=/workspace/models/loras \
+  --dir=/WAN/models/loras \
   --out=wan2.2-lownoise_smartphonesnapshotphotoreality_v3_by-ai_characters.safetensors \
   --save-session=/workspace/aria2.session \
   "$url" && 
@@ -99,15 +100,15 @@ URL="https://huggingface.co/Kijai/WanVideo_comfy/resolve/main/umt5-xxl-enc-bf16.
 aria2c -x16 -s16 -k1M \
   --file-allocation=none \
   --continue=true \
-  --dir=/workspace/models/text_encoders \
+  --dir=/WAN/models/text_encoders \
   --out=umt5-xxl-enc-bf16.safetensors \
   --save-session=/workspace/aria2.session \
-  "$URL" && 
+  "$URL"
 URL="https://huggingface.co/unsloth/FLUX.1-Kontext-dev-GGUF/resolve/main/flux1-kontext-dev-Q8_0.gguf" && \
 aria2c -x16 -s16 -k1M \
   --file-allocation=none \
   --continue=true \
-  --dir=/workspace/models/unet \
+  --dir=/WAN/models/unet \
   --out=flux1-kontext-dev-Q8_0.gguf \
   --save-session=/workspace/aria2.session \
   "$URL"
@@ -115,7 +116,7 @@ URL="https://huggingface.co/zer0int/CLIP-KO-ViT-L-14-336-TypoAttack/resolve/main
 aria2c -x16 -s16 -k1M \
   --file-allocation=none \
   --continue=true \
-  --dir=/workspace/models/clip \
+  --dir=/WAN/models/clip \
   --out=ViT-L-14-336-KO-LITE-FULL-model-OpenAI-format.safetensors \
   --save-session=/workspace/aria2.session \
   "$URL"
@@ -123,7 +124,7 @@ URL="https://huggingface.co/zer0int/CLIP-GmP-ViT-L-14/resolve/main/ViT-L-14-TEXT
 aria2c -x16 -s16 -k1M \
   --file-allocation=none \
   --continue=true \
-  --dir=/workspace/models/clip \
+  --dir=/WAN/models/clip \
   --out=ViT-L-14-TEXT-detail-improved-hiT-GmP-HF.safetensors \
   --save-session=/workspace/aria2.session \
   "$URL"
@@ -131,7 +132,7 @@ URL="https://huggingface.co/StableDiffusionVN/Flux/resolve/main/Vae/flux_vae.saf
 aria2c -x16 -s16 -k1M \
   --file-allocation=none \
   --continue=true \
-  --dir=/workspace/models/vae \
+  --dir=/WAN/models/vae \
   --out=flux_vae.safetensors \
   --save-session=/workspace/aria2.session \
   "$URL"
@@ -139,7 +140,7 @@ URL="https://huggingface.co/easygoing0114/AI_upscalers/resolve/main/4x-PBRify_RP
 aria2c -x16 -s16 -k1M \
   --file-allocation=none \
   --continue=true \
-  --dir=/workspace/models/upscale_models \
+  --dir=/WAN/models/upscale_models \
   --out=4x-PBRify_RPLKSRd_V3.pth \
   --save-session=/workspace/aria2.session \
   "$URL"
@@ -174,7 +175,7 @@ URL="https://huggingface.co/Kijai/WanVideo_comfy_fp8_scaled/resolve/main/T2V/Wan
 aria2c -x16 -s16 -k1M \
   --file-allocation=none \
   --continue=true \
-  --dir=/workspace/models/diffusion_models \
+  --dir=/WAN/models/diffusion_models \
   --out=Wan2_1-T2V-14B-Phantom_fp8_e5m2_scaled_KJ.safetensors \
   --save-session=/workspace/aria2.session \
   "$URL"
@@ -190,9 +191,9 @@ URL="https://huggingface.co/Kijai/WanVideo_comfy/resolve/main/Wan2_1-VACE_module
 aria2c -x16 -s16 -k1M \
   --file-allocation=none \
   --continue=true \
-  --dir=/workspace/models/diffusion_models \
+  --dir=/WAN/models/diffusion_models \
   --out=Wan2_1-VACE_module_14B_bf16.safetensors \
-  --save-session=/workspace/aria2.session \
+  --save-session=/WAN/aria2.session \
   "$URL"
 URL="https://huggingface.co/Kijai/WanVideo_comfy_fp8_scaled/resolve/main/I2V/Wan2_1-I2V-14B-MAGREF_fp8_e4m3fn_scaled_KJ.safetensors" && \
 aria2c -x16 -s16 -k1M \

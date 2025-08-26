@@ -140,3 +140,13 @@ aria2c -x16 -s16 -k1M \
 ```
 
 Choose the method that best suits your specific needs - `hf_transfer` for whole repositories, `huggingface-cli` for simplicity, or `aria2c` for optimized large file downloads.
+
+```bash
+git clone https://github.com/matatratata/runpod_comfy_wan.git
+cd runpod_comfy_wan
+python -m venv venv
+source venv/bin/activate
+pip install -U "huggingface_hub[hf_transfer]"
+python3 load_models_to_net_str.py --base_path="/WAN"
+python main.py --listen --port 8189 --extra-model-paths-config /extra_model_paths.yaml
+```
