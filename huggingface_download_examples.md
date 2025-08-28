@@ -147,6 +147,6 @@ cd runpod_comfy_wan
 python -m venv venv
 source venv/bin/activate
 pip install -U "huggingface_hub[hf_transfer]"
-python3 load_models_to_net_str.py --base_path="/WAN"
+python3 load_models_to_net_inpaint.py --base_path="/WAN"
 python main.py --listen --port 8189 --extra-model-paths-config /extra_model_paths.yaml
 ```

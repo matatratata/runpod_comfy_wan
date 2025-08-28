@@ -395,6 +395,14 @@ aria2c -x16 -s16 -k1M \
   --out=wan21VACEPhantom_v20Lowsteps-fp8_scaled_stochastic-CosmicCrafter.safetensors \
   --save-session=/workspace/aria2.session \
   "$URL"
+URL="https://huggingface.co/Kijai/WanVideo_comfy/resolve/main/Phantom-Wan-14B_fp16.safetensors" && \
+aria2c -x16 -s16 -k1M \
+  --file-allocation=none \
+  --continue=true \
+  --dir=/WAN/models/diffusion_models \
+  --out=Phantom-Wan-14B_fp16.safetensors \
+  --save-session=/workspace/aria2.session \
+  "$URL"
 
 # Ensure all downloaded files are owned by ubuntu
 sudo chown -R ubuntu:ubuntu /workspace/models

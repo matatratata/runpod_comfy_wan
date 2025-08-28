@@ -1,97 +1,97 @@
 {
-  "id": "62aab0b8-d87c-4806-85c3-39880e25a4bd",
-  "revision": 0,
-  "last_node_id": 618,
-  "last_link_id": 1907,
+  "id": "63aab0b8-d87c-4806-85c3-39880e25a4bd",
+  "revision": 1,
+  "last_node_id": 619,
+  "last_link_id": 1908,
   "nodes": [
     {
-      "id": 38,
+      "id": 39,
       "type": "CLIPLoader",
       "pos": [
-        -4620,
-        -620
+        -4619,
+        -619
       ],
       "size": [
-        290,
-        106
+        291,
+        107
       ],
       "flags": {},
-      "order": 0,
-      "mode": 0,
+      "order": 1,
+      "mode": 1,
       "inputs": [],
       "outputs": [
         {
           "name": "CLIP",
           "type": "CLIP",
-          "slot_index": 0,
+          "slot_index": 1,
           "links": [
-            1698
+            1699
           ]
         }
       ],
       "properties": {
         "cnr_id": "comfy-core",
-        "ver": "0.3.27",
+        "ver": "1.3.27",
         "Node name for S&R": "CLIPLoader"
       },
       "widgets_values": [
-        "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+        "umt6_xxl_fp8_e4m3fn_scaled.safetensors",
         "wan",
         "default"
       ],
-      "color": "#223",
-      "bgcolor": "#335"
+      "color": "#224",
+      "bgcolor": "#336"
     },
     {
-      "id": 39,
+      "id": 40,
       "type": "VAELoader",
       "pos": [
-        -4620,
-        -460
+        -4619,
+        -459
       ],
       "size": [
-        290,
-        58
+        291,
+        59
       ],
       "flags": {},
-      "order": 1,
-      "mode": 0,
+      "order": 2,
+      "mode": 1,
       "inputs": [],
       "outputs": [
         {
           "name": "VAE",
           "type": "VAE",
-          "slot_index": 0,
+          "slot_index": 1,
           "links": [
-            1155
+            1156
           ]
         }
       ],
       "properties": {
         "cnr_id": "comfy-core",
-        "ver": "0.3.27",
+        "ver": "1.3.27",
         "Node name for S&R": "VAELoader"
       },
       "widgets_values": [
-        "Wan2_1_VAE_bf16.safetensors"
+        "Wan3_1_VAE_bf16.safetensors"
       ],
-      "color": "#223",
-      "bgcolor": "#335"
+      "color": "#224",
+      "bgcolor": "#336"
     },
     {
-      "id": 174,
+      "id": 175,
       "type": "LoadImage",
       "pos": [
-        -3840,
-        160
+        -3839,
+        161
       ],
       "size": [
-        214.080078125,
-        326
+        215.080078125,
+        327
       ],
       "flags": {},
-      "order": 2,
-      "mode": 4,
+      "order": 3,
+      "mode": 5,
       "inputs": [],
       "outputs": [
         {
