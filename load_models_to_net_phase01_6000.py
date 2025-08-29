@@ -124,9 +124,9 @@ def download_models(base_path):
         },
         # More models - all remaining from the original script
         {
-            "url": "https://huggingface.co/Kijai/WanVideo_comfy_fp8_scaled/resolve/main/T2V/Wan2_1-T2V-14B-Phantom_fp8_e5m2_scaled_KJ.safetensors",
+            "url": "https://huggingface.co/Kijai/WanVideo_comfy/resolve/main/Phantom-Wan-14B_fp16.safetensors",
             "dir": "models/diffusion_models",
-            "out": "Wan2_1-T2V-14B-Phantom_fp8_e5m2_scaled_KJ.safetensors",
+            "out": "Phantom-Wan-14B_fp16.safetensors",
         },
         {
             "url": "https://huggingface.co/Kijai/WanVideo_comfy/resolve/main/Wan21_Uni3C_controlnet_fp16.safetensors",

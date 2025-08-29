@@ -139,24 +139,9 @@ def download_models(base_path):
             "out": "Wan2_1-VACE_module_14B_bf16.safetensors",
         },
         {
-            "url": "https://huggingface.co/Kijai/WanVideo_comfy_fp8_scaled/resolve/main/I2V/Wan2_2-I2V-A14B-HIGH_fp8_e5m2_scaled_KJ.safetensors",
-            "dir": "models/diffusion_models",
-            "out": "Wan2_2-I2V-A14B-HIGH_fp8_e5m2_scaled_KJ.safetensors",
-        },
-        {
-            "url": "https://huggingface.co/Kijai/WanVideo_comfy_fp8_scaled/resolve/main/I2V/Wan2_2-I2V-A14B-LOW_fp8_e5m2_scaled_KJ.safetensors",
-            "dir": "models/diffusion_models",
-            "out": "Wan2_2-I2V-A14B-LOW_fp8_e5m2_scaled_KJ.safetensors",
-        },
-        {
             "url": "https://huggingface.co/Kijai/WanVideo_comfy/resolve/main/FantasyPortrait/Wan2_1_FantasyPortrait_fp16.safetensors",
             "dir": "models/diffusion_models",
             "out": "Wan2_1_FantasyPortrait_fp16.safetensors",
-        },
-        {
-            "url": "https://huggingface.co/Kijai/WanVideo_comfy/resolve/main/Stand-In/Stand-In_wan2.1_T2V_14B_ver1.0_fp32.safetensors",
-            "dir": "models/diffusion_models",
-            "out": "Stand-In_wan2.1_T2V_14B_ver1.0_fp32.safetensors",
         },
         {
             "url": "https://huggingface.co/Kijai/WanVideo_comfy/resolve/main/Skyreels/Wan2_1_Skyreels-v2-I2V-720P_LoRA_rank_adaptive_quantile_0.20_fp16.safetensors",
@@ -242,11 +227,6 @@ def download_models(base_path):
             "url": "https://huggingface.co/Kijai/WanVideo_comfy/resolve/main/taew2_1.safetensors",
             "dir": "models/vae",
             "out": "taew2_1.safetensors",
-        },
-        {
-            "url": "https://huggingface.co/CosmicCrafter/wan21VACEPhantom_v20Lowsteps/resolve/main/wan21VACEPhantom_v20Lowsteps/wan21VACEPhantom_v20Lowsteps-fp8_scaled_stochastic-CosmicCrafter.safetensors",
-            "dir": "models/diffusion_models",
-            "out": "wan21VACEPhantom_v20Lowsteps-fp8_scaled_stochastic-CosmicCrafter.safetensors",
         },
         {
             "url": "https://huggingface.co/svjack/Wan_2_1_safetensors_pth/resolve/main/Phantom_Wan_14B_FusionX_LoRA.safetensors",
