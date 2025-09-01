@@ -412,6 +412,15 @@ aria2c -x16 -s16 -k1M \
   --save-session=/workspace/aria2.session \
   "$URL"
 
+URL="https://huggingface.co/Kijai/WanVideo_comfy/resolve/main/Wan2_1-I2V-ATI-14B_fp8_e4m3fn.safetensors" && \
+aria2c -x16 -s16 -k1M \
+  --file-allocation=none \
+  --continue=true \
+  --dir=/WAN/models/diffusion_models \
+  --out=Wan2_1-I2V-ATI-14B_fp8_e4m3fn.safetensors \
+  --save-session=/workspace/aria2.session \
+  "$URL"
+
 # Ensure all downloaded files are owned by ubuntu
 sudo chown -R ubuntu:ubuntu /workspace/models
 EOF
