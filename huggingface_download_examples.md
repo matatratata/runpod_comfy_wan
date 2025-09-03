@@ -154,6 +154,6 @@ source venv/bin/activate
 pip install -U "huggingface_hub[hf_transfer]"
 git pull
 cp dwpose_scale_limbs.py ../ComfyUI/custom_nodes/dwpose_scale_limbs.py
-python3 load_models_to_net_phase01_body.py --base_path="/WAN"
+python3 load_models_to_net_phase01_splines.py --base_path="/WAN"
 python main.py --listen --port 8189 --extra-model-paths-config /extra_model_paths.yaml
 ```
