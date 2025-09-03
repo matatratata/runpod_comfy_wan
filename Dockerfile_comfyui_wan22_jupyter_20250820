@@ -62,7 +62,6 @@ RUN pip install --no-cache-dir jupyterlab jupyter_http_over_ws
 WORKDIR /ComfyUI/custom_nodes
 RUN git clone https://github.com/Comfy-Org/ComfyUI-Manager.git
 RUN git clone https://github.com/kijai/ComfyUI-WanVideoWrapper.git
-# ... (rest of your custom nodes)
 RUN git clone https://github.com/kijai/ComfyUI-KJNodes.git
 RUN git clone https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite.git
 RUN git clone https://github.com/rgthree/rgthree-comfy.git
@@ -82,6 +81,7 @@ RUN git clone https://github.com/safzanpirani/flux-kontext-diff-merge.git
 RUN git clone https://github.com/drozbay/ComfyUI-WanVaceAdvanced.git
 RUN git clone https://github.com/lquesada/ComfyUI-Inpaint-CropAndStitch.git
 RUN git clone https://github.com/yolain/ComfyUI-Easy-Use.git
+RUN git clone https://github.com/westNeighbor/ComfyUI-ultimate-openpose-editor.git
 
 # Loop through custom nodes and install their requirements
 RUN for d in /ComfyUI/custom_nodes/*/; do \
