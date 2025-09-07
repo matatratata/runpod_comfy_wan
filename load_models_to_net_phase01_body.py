@@ -247,6 +247,16 @@ def download_models(base_path):
             "dir": "models/loras",
             "out": "Wan22_PusaV1_lora_HIGH_resized_dynamic_avg_rank_98_bf16.safetensors",
         },
+        {
+            "url": "https://huggingface.co/Kijai/WanVideo_comfy/resolve/main/Pusa/Wan22_PusaV1_lora_LOW_resized_dynamic_avg_rank_98_bf16.safetensors",
+            "dir": "models/loras",
+            "out": "Wan22_PusaV1_lora_LOW_resized_dynamic_avg_rank_98_bf16.safetensors",
+        },
+        {
+            "url": "https://huggingface.co/RaphaelLiu/Pusa-Wan2.2-V1/resolve/main/low_noise_pusa.safetensors",
+            "dir": "models/loras",
+            "out": "low_noise_pusa.safetensors",
+        },
     ]
 
     # Download files one at a time with aria2c
